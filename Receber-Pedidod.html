@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -79,6 +80,20 @@
             text-transform: uppercase;
         }
 
+        /* Botão solicitado */
+        .btn-status {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #00ffc3;
+            color: #0b0e14;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
         @media (max-width: 600px) {
             .grid-produtos { grid-template-columns: repeat(2, 1fr); }
         }
@@ -99,50 +114,62 @@
     <div class="card-produto" id="card-1">
         <span class="card-id-visual" id="id-val-1">ID: --</span>
         <div class="card-nome" id="nome-val-1">Vazio</div>
+        <button class="btn-status" id="btn-1" onclick="mudarStatus(1)">Ativo</button>
     </div>
     <div class="card-produto" id="card-2">
         <span class="card-id-visual" id="id-val-2">ID: --</span>
         <div class="card-nome" id="nome-val-2">Vazio</div>
+        <button class="btn-status" id="btn-2" onclick="mudarStatus(2)">Ativo</button>
     </div>
     <div class="card-produto" id="card-3">
         <span class="card-id-visual" id="id-val-3">ID: --</span>
         <div class="card-nome" id="nome-val-3">Vazio</div>
+        <button class="btn-status" id="btn-3" onclick="mudarStatus(3)">Ativo</button>
     </div>
     <div class="card-produto" id="card-4">
         <span class="card-id-visual" id="id-val-4">ID: --</span>
         <div class="card-nome" id="nome-val-4">Vazio</div>
+        <button class="btn-status" id="btn-4" onclick="mudarStatus(4)">Ativo</button>
     </div>
     <div class="card-produto" id="card-5">
         <span class="card-id-visual" id="id-val-5">ID: --</span>
         <div class="card-nome" id="nome-val-5">Vazio</div>
+        <button class="btn-status" id="btn-5" onclick="mudarStatus(5)">Ativo</button>
     </div>
     <div class="card-produto" id="card-6">
         <span class="card-id-visual" id="id-val-6">ID: --</span>
         <div class="card-nome" id="nome-val-6">Vazio</div>
+        <button class="btn-status" id="btn-6" onclick="mudarStatus(6)">Ativo</button>
     </div>
     <div class="card-produto" id="card-7">
         <span class="card-id-visual" id="id-val-7">ID: --</span>
         <div class="card-nome" id="nome-val-7">Vazio</div>
+        <button class="btn-status" id="btn-7" onclick="mudarStatus(7)">Ativo</button>
     </div>
     <div class="card-produto" id="card-8">
         <span class="card-id-visual" id="id-val-8">ID: --</span>
         <div class="card-nome" id="nome-val-8">Vazio</div>
+        <button class="btn-status" id="btn-8" onclick="mudarStatus(8)">Ativo</button>
     </div>
     <div class="card-produto" id="card-9">
         <span class="card-id-visual" id="id-val-9">ID: --</span>
         <div class="card-nome" id="nome-val-9">Vazio</div>
+        <button class="btn-status" id="btn-9" onclick="mudarStatus(9)">Ativo</button>
     </div>
     <div class="card-produto" id="card-10">
         <span class="card-id-visual" id="id-val-10">ID: --</span>
         <div class="card-nome" id="nome-val-10">Vazio</div>
+        <button class="btn-status" id="btn-10" onclick="mudarStatus(10)">Ativo</button>
     </div>
     <div class="card-produto" id="card-11">
         <span class="card-id-visual" id="id-val-11">ID: --</span>
         <div class="card-nome" id="nome-val-11">Vazio</div>
+        <button class="btn-status" id="btn-11" onclick="mudarStatus(11)">Ativo</button>
     </div>
     <div class="card-produto" id="card-12">
         <span class="card-id-visual" id="id-val-12">ID: --</span>
         <div class="card-nome" id="nome-val-12">Vazio</div>
+        <button class="btn-status" id="btn-12" onclick="mudarStatus(12)">Ativo</button>
     </div>
 </div>
 
@@ -153,7 +180,27 @@
     const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLyfJ_DxYlM85wk6yabreWrfU6JPMY05-DWcbAvILym3bsNQsegVhTS5fkohmtwpWu7HzH6_4hoVLH/pub?output=csv";
 
     function replicarValor() {
-        document.getElementById('inputReplicado').value = document.getElementById('inputPrincipal').value;
+        let texto = document.getElementById('inputPrincipal').value;
+        if (texto.trim() !== "") {
+            // Garante que comece com 👉
+            if (!texto.startsWith("👉")) {
+                texto = "👉" + texto;
+            }
+            // Organiza conforme o seu exemplo (👉 em cada item e quebra de linha)
+            // Substitui espaços por quebra de linha e a mãozinha
+            texto = texto.split(" ").join("\n👉");
+        }
+        document.getElementById('inputReplicado').value = texto;
+    }
+
+    // Função para alternar o texto do botão
+    function mudarStatus(id) {
+        var botao = document.getElementById("btn-" + id);
+        if (botao.innerHTML === "Ativo") {
+            botao.innerHTML = "Enviado";
+        } else {
+            botao.innerHTML = "Ativo";
+        }
     }
 
     function parseCSVLine(line) {
@@ -180,20 +227,24 @@
                 if (!linhas[i].trim()) continue;
                 const colunas = parseCSVLine(linhas[i]);
 
-                // Coluna C (Índice 2): Qual card editar (1-12)
-                // Coluna B (Índice 1): Nome do Produto
-                // Coluna F (Índice 5): ID visual (** do card)
-                
                 const cardAlvo = colunas[2] ? colunas[2].trim() : null;
                 const nomeProd = colunas[1] ? colunas[1].trim() : "";
-                const idVisual = colunas[5] ? colunas[5].trim() : "**";
+                const idVisual = colunas[5] ? colunas[5].trim() : "--";
 
                 if (cardAlvo && cardAlvo >= 1 && cardAlvo <= 12) {
                     const elNome = document.getElementById(`nome-val-${cardAlvo}`);
                     const elId = document.getElementById(`id-val-${cardAlvo}`);
+                    const elBtn = document.getElementById(`btn-${cardAlvo}`);
                     
                     if (elNome) elNome.innerText = nomeProd;
-                    if (elId) elId.innerText = "ID: " + idVisual;
+                    if (elId) {
+                        elId.innerText = "ID: " + idVisual;
+                        
+                        // SE O ID FICAR -- VOLTA PARA ATIVO
+                        if (idVisual === "--" && elBtn) {
+                            elBtn.innerHTML = "Ativo";
+                        }
+                    }
                 }
             }
         } catch (error) {
@@ -201,7 +252,6 @@
         }
     }
 
-    // Atualiza os nomes e IDs dos cards a cada 10 segundos
     setInterval(carregarDadosPlanilha, 10000);
 </script>
 
